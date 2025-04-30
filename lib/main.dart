@@ -56,7 +56,6 @@ class MyApp extends StatelessWidget {
               ),
           '/home': (context) => const HomePage(),
           '/billing': (context) => const BillingPage(),
-          '/products': (context) => const ProductsPage(),
           '/invoices': (context) => const InvoicesPage(),
           '/invoiceDetail': (context) => const InvoiceDetailPage(),
           '/login': (context) => const LoginPage(),

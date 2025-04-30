@@ -16,10 +16,6 @@ class HomePage extends StatelessWidget {
               onPressed: () => Navigator.pushNamed(context, '/billing'),
             ),
             ElevatedButton(
-              child: const Text('Products'),
-              onPressed: () => Navigator.pushNamed(context, '/products'),
-            ),
-            ElevatedButton(
               child: const Text('Invoices'),
               onPressed: () => Navigator.pushNamed(context, '/invoices'),
             ),
