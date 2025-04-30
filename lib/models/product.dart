@@ -8,4 +8,20 @@ class Product {
   double get cgst => (price * gstRate) / 2;
   double get sgst => (price * gstRate) / 2;
   double get total => price + cgst + sgst;
+
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'price': price,
+      'gstRate': gstRate,
+    };
+  }
+
+  factory Product.fromMap(Map<String, dynamic> map) {
+    return Product(
+      name: map['name'] ?? '',
+      price: (map['price'] as num).toDouble(),
+      gstRate: (map['gstRate'] as num).toDouble(),
+    );
+  }
 }
