@@ -7,9 +7,7 @@ class LoginPage extends StatelessWidget {
 
   Future<UserCredential?> signInWithGoogle(BuildContext context) async {
     try {
-      final GoogleSignIn googleSignIn = GoogleSignIn(
-        clientId: '972666895346-jhbbsout99c8usel92beur5sdr9935o4.apps.googleusercontent.com',
-      );
+      final GoogleSignIn googleSignIn = GoogleSignIn(); 
       final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
       if (googleUser == null) {
         return null;
@@ -32,12 +30,37 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: ElevatedButton.icon(
-          icon: const Icon(Icons.login),
-          label: const Text('Sign in with Google'),
-          onPressed: () async {
-            await signInWithGoogle(context);
-          },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              'Welcome to the TATA GST Billing App',
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 32),
+            ElevatedButton.icon(
+              icon: const Icon(Icons.login),
+              label: const Text('Sign in with Google'),
+              onPressed: () async {
+                final user = await signInWithGoogle(context);
+                if (user != null) {
+                  Navigator.of(context).pushReplacementNamed('/home');
+                } else if (FirebaseAuth.instance.currentUser == null) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Sign-in failed. Please try again.')),
+                  );
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                textStyle: const TextStyle(fontSize: 16),
+              ),
+            ),
+          ],
         ),
       ),
     );

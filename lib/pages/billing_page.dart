@@ -14,6 +14,7 @@ class BillingPage extends StatefulWidget {
 
 class _BillingPageState extends State<BillingPage> {
   final TextEditingController _customerNameController = TextEditingController();
+  final TextEditingController _customerPhoneController = TextEditingController();
   List<Product> _products = [];
 
   void _addProductDialog() async {
@@ -85,13 +86,15 @@ class _BillingPageState extends State<BillingPage> {
 
   void _saveInvoice() {
     final customerName = _customerNameController.text.trim();
-    if (customerName.isEmpty || _products.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Enter customer name and add at least one product.')));
+    final customerPhone = _customerPhoneController.text.trim();
+    if (customerName.isEmpty || customerPhone.isEmpty || _products.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Enter customer name, phone and add at least one product.')));
       return;
     }
     final invoice = Invoice(
       id: const Uuid().v4(),
       customerName: customerName,
+      customerPhone: customerPhone,
       date: DateTime.now(),
       products: List<Product>.from(_products),
     );
@@ -99,6 +102,7 @@ class _BillingPageState extends State<BillingPage> {
     setState(() {
       _products.clear();
       _customerNameController.clear();
+      _customerPhoneController.clear();
     });
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Invoice saved!')));
   }
@@ -116,6 +120,12 @@ class _BillingPageState extends State<BillingPage> {
             TextField(
               controller: _customerNameController,
               decoration: const InputDecoration(labelText: 'Customer Name'),
+            ),
+            const SizedBox(height: 8),
+            TextField(
+              controller: _customerPhoneController,
+              decoration: const InputDecoration(labelText: 'Customer Phone Number'),
+              keyboardType: TextInputType.phone,
             ),
             const SizedBox(height: 20),
             Row(
